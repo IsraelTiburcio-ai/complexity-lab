@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Complexity Lab — Laboratorio de Complejidad de Sistemas. Experimenta visualmente cómo crece la complejidad de una red. Optimización I, Gimnasio 1." />
+  <meta name="theme-color" content="#03040c" />
+  <title>COMPLEXITY LAB — Laboratorio de Complejidad de Sistemas</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%2337d9ff' stroke-width='2'%3E%3Ccircle cx='18' cy='18' r='5'/%3E%3Ccircle cx='32' cy='20' r='5'/%3E%3Ccircle cx='24' cy='32' r='5'/%3E%3C/g%3E%3Cg stroke='%239a7bff' stroke-width='2'%3E%3Cline x1='21' y1='15' x2='29' y2='18'/%3E%3Cline x1='23' y1='21' x2='21' y2='28'/%3E%3Cline x1='29' y1='24' x2='27' y2='29'/%3E%3C/g%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/network.css" />
+  <link rel="stylesheet" href="css/charts.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <div id="bg-grid" aria-hidden="true"></div>
+
+  <div id="app">
+
+    <!-- ============ HUD ============ -->
+    <header id="hud" hidden>
+      <div class="hud-left">
+        <button id="hud-logo" class="hud-logo-btn" aria-label="Volver al inicio">
+          <span class="icon" data-icon="reactor" data-size="22"></span>
+        </button>
+        <div class="hud-word">COMPLEXITY&nbsp;<span class="hud-word-accent">LAB</span></div>
+      </div>
+      <div class="hud-right">
+        <div class="hud-stat hud-stat-pts" title="Puntos">
+          <span class="hud-stat-label">Puntos</span>
+          <b id="hud-score">0</b>
+        </div>
+        <div class="hud-stat hud-stat-streak" title="Racha de precisión">
+          <span class="hud-stat-label">Racha</span>
+          <b id="hud-streak">×1</b>
+        </div>
+        <button id="hud-sound" class="hud-btn" aria-label="Activar o desactivar sonido" title="Sonido">
+          <span class="icon" data-icon="sound-on"></span>
+        </button>
+        <button id="hud-sandbox" class="hud-btn" aria-label="Abrir el modo libre" title="Modo libre">
+          <span class="icon" data-icon="sandbox"></span>
+        </button>
+        <button id="hud-progress" class="hud-btn" aria-label="Abrir el mapa de progreso" title="Mapa de progreso">
+          <span class="icon" data-icon="map"></span>
+        </button>
+        <button id="hud-achievements" class="hud-btn" aria-label="Ver logros" title="Logros">
+          <span class="icon" data-icon="trophy"></span>
+        </button>
+        <button id="hud-tutorial" class="hud-btn" aria-label="Ver el tutorial" title="Tutorial">
+          <span class="icon" data-icon="help"></span>
+        </button>
+        <button id="hud-home" class="hud-btn" aria-label="Volver al inicio" title="Inicio">
+          <span class="icon" data-icon="home"></span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main">
+
+      <!-- ============ HOME ============ -->
+      <section id="screen-home" class="screen" data-screen="home">
+        <div class="home-wrap">
+          <div class="home-orb" aria-hidden="true"></div>
+          <div class="home-brand">
+            <span class="icon home-logo-ring" data-icon="reactor" data-size="72"></span>
+            <h1 class="home-title">COMPLEXITY <span class="t-accent">LAB</span></h1>
+            <p class="home-subtitle">Laboratorio de Complejidad de Sistemas</p>
+            <p class="home-tagline">
+              Descubre cómo unos pocos elementos pueden generar una red de
+              relaciones cada vez más compleja.
+            </p>
+          </div>
+          <div class="home-actions">
+            <button id="btn-start" class="btn btn-primary btn-lg">INICIAR EXPERIMENTO</button>
+            <button id="btn-continue" class="btn btn-ghost btn-lg" hidden>CONTINUAR EXPERIMENTO</button>
+            <div class="home-mini-actions">
+              <button id="btn-instructions" class="btn btn-ghost">Tutorial</button>
+              <button id="btn-map" class="btn btn-ghost">Mapa de experimentos</button>
+              <button id="btn-sound-home" class="btn btn-ghost">🔊 Sonido: activado</button>
+              <button id="btn-reset" class="btn btn-ghost btn-danger-ghost">Reiniciar progreso</button>
+            </div>
+          </div>
+          <footer class="home-footer">
+            <span>Optimización I — Gimnasio 1 · Introducción a la Teoría de Sistemas</span>
+            <button id="btn-credits" class="link-btn">Acerca de</button>
+          </footer>
+        </div>
+      </section>
+
+      <!-- ============ INTRO ANIMADA ============ -->
+      <section id="screen-intro" class="screen" data-screen="intro" hidden>
+        <div class="intro-stage">
+          <button id="intro-skip" class="btn btn-ghost btn-sm" style="position:absolute;top:14px;right:14px">Omitir ⏩</button>
+          <div class="intro-reactor" id="intro-reactor" role="img"
+               aria-label="Secuencia animada: los elementos se conectan y las relaciones crecen"></div>
+          <div class="intro-stage" style="gap:4px;padding:0">
+            <div class="stage-head" id="intro-head"></div>
+            <div class="stage-count" id="intro-count"></div>
+            <div class="stage-sub" id="intro-sub"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ TUTORIAL ============ -->
+      <section id="screen-tutorial" class="screen" data-screen="tutorial" hidden>
+        <div class="wrap-center">
+          <header class="screen-head">
+            <h2>GUÍA RÁPIDA DE <span>LABORATORIO</span></h2>
+            <p class="screen-sub">Tres movimientos y estarás listo para experimentar</p>
+          </header>
+          <div id="tutorial-host" class="panel-card" style="margin-top:18px"></div>
+        </div>
+      </section>
+
+      <!-- ============ MAPA DE PROGRESO ============ -->
+      <section id="screen-progress" class="screen" data-screen="progress" hidden>
+        <div class="wrap-center">
+          <header class="screen-head">
+            <h2>MAPA DE <span>EXPERIMENTOS</span></h2>
+            <p class="screen-sub">Estaciones del laboratorio de complejidad</p>
+          </header>
+          <div id="progress-map" class="progress-map"></div>
+          <div id="progress-stats" class="progress-stats"></div>
+          <div class="btn-row" style="justify-content:center;margin-top:16px">
+            <button id="progress-back" class="btn btn-ghost">◀ Volver</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ EXPERIMENTOS (1-5) ============ -->
+      <section id="screen-experiment" class="screen" data-screen="experiment" hidden>
+        <div id="experiment-host" style="flex:1;display:flex;flex-direction:column;min-height:0"></div>
+      </section>
+
+      <!-- ============ CÁMARA DE DESAFÍOS ============ -->
+      <section id="screen-challenge" class="screen" data-screen="challenge" hidden>
+        <div id="challenge-host" style="flex:1;display:flex;flex-direction:column;min-height:0"></div>
+      </section>
+
+      <!-- ============ EXPERIMENTO FINAL ============ -->
+      <section id="screen-final" class="screen" data-screen="final" hidden>
+        <div id="final-host" style="flex:1;display:flex;flex-direction:column;min-height:0"></div>
+      </section>
+
+      <!-- ============ RESULTADOS ============ -->
+      <section id="screen-results" class="screen" data-screen="results" hidden>
+        <div class="wrap-center">
+          <header class="screen-head">
+            <h2>ANÁLISIS <span>COMPLETADO</span></h2>
+            <p class="screen-sub">Protocolo Caos — resumen del experimento final</p>
+          </header>
+          <div id="results-host"></div>
+        </div>
+      </section>
+
+      <!-- ============ LOGROS ============ -->
+      <section id="screen-achievements" class="screen" data-screen="achievements" hidden>
+        <div class="wrap-center">
+          <header class="screen-head">
+            <h2>SALA DE <span>LOGROS</span></h2>
+            <p class="screen-sub">Marcas de la experimentadora / el experimentador</p>
+          </header>
+          <div id="ach-grid" class="ach-grid"></div>
+          <div class="btn-row" style="justify-content:center;margin-top:16px">
+            <button id="ach-back" class="btn btn-ghost">◀ Volver</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ MODO LIBRE ============ -->
+      <section id="screen-sandbox" class="screen" data-screen="sandbox" hidden>
+        <div id="sandbox-host" style="flex:1;display:flex;flex-direction:column;min-height:0"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <div id="toast-region" class="toast-region" aria-live="polite"></div>
+  <div id="modal-root"></div>
+
+  <script src="data/achievements.js"></script>
+  <script src="data/experiments.js"></script>
+  <script src="data/challenges.js"></script>
+  <script src="js/math.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/layoutEngine.js"></script>
+  <script src="js/networkEngine.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/labPanel.js"></script>
+  <script src="js/scoring.js"></script>
+  <script src="js/achievements.js"></script>
+  <script src="js/experiments.js"></script>
+  <script src="js/challenges.js"></script>
+  <script src="js/final.js"></script>
+  <script src="js/sandbox.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

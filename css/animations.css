@@ -1,0 +1,117 @@
+/* ============================================================
+   COMPLEXITY LAB · animations.css
+   Keyframes globales + preferencias de movimiento reducido
+   ============================================================ */
+@keyframes screen-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes screen-out {
+  to { opacity: 0; transform: translateY(-10px); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes toast-out {
+  to { opacity: 0; transform: translateX(30px); }
+}
+@keyframes ach-in {
+  0% { opacity: 0; transform: translateX(40px) scale(0.9); }
+  60% { opacity: 1; transform: translateX(-4px) scale(1.02); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes coach-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes block-in {
+  from { opacity: 0; transform: scale(0.4); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes num-pop {
+  0% { transform: scale(1.5); color: var(--complex); }
+  100% { transform: scale(1); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-4px); }
+}
+@keyframes orb-drift {
+  0%, 100% { transform: scale(1) translateY(0); opacity: 0.9; }
+  50% { transform: scale(1.08) translateY(-12px); opacity: 1; }
+}
+@keyframes status-blink {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+@keyframes node-enter {
+  0% { opacity: 0; transform: scale(0.2); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes node-exit {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.15); }
+}
+@keyframes node-breath {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.045); }
+}
+@keyframes node-select {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.14); }
+}
+@keyframes node-pending {
+  0%, 100% { transform: scale(1); box-shadow: none; }
+  50% { transform: scale(1.22); }
+}
+@keyframes draw-edge {
+  0% { stroke-dashoffset: var(--len); }
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes travel-pulse {
+  0% { stroke-dashoffset: var(--len); }
+  100% { stroke-dashoffset: calc(-1 * var(--len)); }
+}
+@keyframes chart-draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.92); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reactor-stable {
+  0% { transform: scale(0.97); filter: brightness(1.6); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+.reactor-stable { animation: reactor-stable 1.6s var(--ease); }
+
+@keyframes pulse-soft {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+/* ============================================================
+   Movimiento reducido
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .screen { animation: none; }
+}

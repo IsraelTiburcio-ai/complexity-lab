@@ -1,0 +1,49 @@
+/* ============================================================
+   COMPLEXITY LAB · responsive.css
+   Desktop / Tablet / Móvil (360px+) · touch · bottom sheets
+   ============================================================ */
+@media (max-width: 1080px) {
+  .lab-grid {
+    grid-template-columns: minmax(0, 1fr) 330px;
+  }
+}
+
+@media (max-width: 860px) {
+  .lab-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 10px;
+  }
+  .lab-side {
+    overflow-y: visible;
+    max-height: none;
+  }
+  /* El panel lateral pasa a ser una hoja inferior colapsable */
+  .lab-side {
+    position: relative;
+  }
+  .lab-side .panel-block { border-radius: var(--radius-lg); }
+  .hud-word { display: none; }
+}
+
+@media (max-width: 600px) {
+  :root { --topbar-h: 54px; }
+  .hud-stat-label { display: none; }
+  .hud-stat { padding: 2px 8px; }
+  .hud-btn { width: 34px; height: 34px; }
+  .btn-lg { padding: 13px 22px; }
+  .home-title { letter-spacing: 0.05em; }
+  .compare-wrap { grid-template-columns: 1fr; }
+  .stat-strip { grid-template-columns: 1fr 1fr; }
+  .intro-reactor { height: 40vh; }
+  .reactor-tools .btn { padding: 5px 8px; font-size: 8px; }
+  .screen { padding-bottom: env(safe-area-inset-bottom); }
+}
+
+/* Toques: área de nodo más generosa en táctil */
+@media (pointer: coarse) {
+  .node-group .node-hit { r: 20; }
+  .edge { stroke-width: 3; stroke-opacity: 0.5; }
+  .btn { padding: 13px 18px; }
+}

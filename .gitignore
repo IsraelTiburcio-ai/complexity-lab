@@ -1,0 +1,39 @@
+# macOS
+.DS_Store
+.DS_Store/
+.AppleDouble
+.LSOverride
+
+# Sistema / editor
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.code-workspace
+
+# Logs y temporales
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Entorno / secretos (el proyecto no los necesita)
+.env
+.env.*
+*.pem
+*.key
+
+# Dependencias generadas
+node_modules/
+dist/
+build/
+
+# Pruebas temporales locales
+_smoke_test*.html
+_probe*.html
+_final_check*.html
+_layout_check*.html
+_shot*.html
