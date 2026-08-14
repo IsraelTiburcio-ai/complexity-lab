@@ -37,3 +37,6 @@ _probe*.html
 _final_check*.html
 _layout_check*.html
 _shot*.html
+_nb_test*.html
+_dbg*.html
+_publish_check*.html
