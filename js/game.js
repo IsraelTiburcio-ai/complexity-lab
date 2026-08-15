@@ -96,6 +96,15 @@
 
   const RING_C = 2 * Math.PI * 92;
 
+  /* ---------- Barajar opciones (cada ronda) ---------- */
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
   /* ---------- Transiciones de pantalla ---------- */
   function show(screenEl) {
     [elHome, elGame, elResult].forEach((s) => s.classList.add("is-leaving"));
@@ -233,6 +242,8 @@
   function setupRound() {
     const r = DATA.rounds[S.round];
     S.answered = false;
+    // opciones barajadas: la respuesta correcta cambia de botón en cada ronda
+    S.currentOptions = shuffle(r.options.slice());
     roundNum.textContent = "R" + (S.round + 1) + "/" + DATA.rounds.length;
     qN.textContent = r.n;
     qText.textContent = r.question;
@@ -246,10 +257,10 @@
 
     // opciones
     optionsEl.querySelectorAll(".opt").forEach((b, i) => {
-      b.textContent = r.options[i];
+      b.textContent = S.currentOptions[i];
       b.className = "opt";
       b.disabled = false;
-      b.setAttribute("aria-label", "Opción " + (i + 1) + ": " + r.options[i]);
+      b.setAttribute("aria-label", "Opción " + (i + 1) + ": " + S.currentOptions[i]);
     });
 
     renderNetwork(r.n, { enter: true });
@@ -262,7 +273,7 @@
     S.answered = true;
     stopTimer();
     const btns = optionsEl.querySelectorAll(".opt");
-    const chosen = r.options[i];
+    const chosen = S.currentOptions[i];
 
     if (chosen === r.answer) {
       // acierto
@@ -299,7 +310,7 @@
       comboChip.hidden = true;
       S.history.push({ n: r.n, question: r.question, options: r.options, answer: r.answer, feedback: r.feedback, correct: false, chosen: chosen });
       btns[i].classList.add("is-wrong");
-      btns[r.options.indexOf(r.answer)].classList.add("is-reveal");
+      btns[S.currentOptions.indexOf(r.answer)].classList.add("is-reveal");
       feedback.textContent = "Observa: " + r.feedback;
       feedback.className = "feedback is-err";
       SFX.wrong();
@@ -318,7 +329,7 @@
     comboChip.hidden = true;
     S.history.push({ n: r.n, question: r.question, options: r.options, answer: r.answer, feedback: r.feedback, correct: false, chosen: null, timedOut: true });
     const btns = optionsEl.querySelectorAll(".opt");
-    btns[r.options.indexOf(r.answer)].classList.add("is-reveal");
+    btns[S.currentOptions.indexOf(r.answer)].classList.add("is-reveal");
     feedback.textContent = "Tiempo: " + r.feedback;
     feedback.className = "feedback is-err";
     SFX.timeout();
