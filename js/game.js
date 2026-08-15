@@ -23,6 +23,7 @@
     answered: false,
     timeLeft: 0,
     timerId: null,
+    history: [],
     best: parseInt(localStorage.getItem("networkbomb.best") || "0", 10) || 0
   };
 
@@ -268,6 +269,7 @@
       S.combo++;
       S.maxCombo = Math.max(S.maxCombo, S.combo);
       S.correct++;
+      S.history.push({ n: r.n, question: r.question, options: r.options, answer: r.answer, feedback: r.feedback, correct: true, chosen: r.answer });
       const gained = DATA.points * S.combo;
       S.score += gained;
       scoreVal.textContent = S.score;
@@ -295,6 +297,7 @@
       // error
       S.combo = 0;
       comboChip.hidden = true;
+      S.history.push({ n: r.n, question: r.question, options: r.options, answer: r.answer, feedback: r.feedback, correct: false, chosen: chosen });
       btns[i].classList.add("is-wrong");
       btns[r.options.indexOf(r.answer)].classList.add("is-reveal");
       feedback.textContent = "Observa: " + r.feedback;
@@ -313,6 +316,7 @@
     S.answered = true;
     S.combo = 0;
     comboChip.hidden = true;
+    S.history.push({ n: r.n, question: r.question, options: r.options, answer: r.answer, feedback: r.feedback, correct: false, chosen: null, timedOut: true });
     const btns = optionsEl.querySelectorAll(".opt");
     btns[r.options.indexOf(r.answer)].classList.add("is-reveal");
     feedback.textContent = "Tiempo: " + r.feedback;
@@ -376,18 +380,42 @@
 
   /* ---------- Inicio ---------- */
   function startGame() {
-    S.round = 0; S.score = 0; S.combo = 0; S.maxCombo = 0; S.correct = 0;
+    S.round = 0; S.score = 0; S.combo = 0; S.maxCombo = 0; S.correct = 0; S.history = [];
     scoreVal.textContent = "0";
     comboChip.hidden = true;
+    $("review").hidden = true;
     setupRound();
     show(elGame);
   }
 
+  /* ---------- Repaso de respuestas ---------- */
+  function renderReview() {
+    const list = $("review-list");
+    list.innerHTML = "";
+    let ok = 0;
+    S.history.forEach((r, i) => {
+      if (r.correct) ok++;
+      const you = r.timedOut ? "— (tiempo agotado)" : (r.chosen !== null ? r.chosen : "—");
+      const row = document.createElement("div");
+      row.className = "review-row " + (r.correct ? "is-ok" : "is-err");
+      row.innerHTML =
+        '<div class="review-head"><span class="review-q">R' + (i + 1) + ' · <b>' + r.n + "</b> ELEMENTOS · " + r.question + "</span>" +
+        '<span class="review-r">' + (r.correct ? "✓" : "✗") + "</span></div>" +
+        '<div class="review-ans"><span class="you' + (r.correct ? " is-right" : "") + '">Tú: ' + you + "</span>" +
+        '<span class="correct">Correcta: ' + r.answer + "</span></div>" +
+        '<div class="review-formula">' + r.feedback + "</div>";
+      list.appendChild(row);
+    });
+    $("review-summary").innerHTML = "Acertaste <b>" + ok + "/" + S.history.length + "</b> rondas";
+    $("review").hidden = false;
+  }
+
   /* ---------- Teclado ---------- */
   document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !$("review").hidden) { $("review").hidden = true; return; }
     if (e.key === "Enter" || e.key === " ") {
       if (!elHome.hidden) { e.preventDefault(); startGame(); }
-      else if (!elResult.hidden) { e.preventDefault(); startGame(); }
+      else if (!elResult.hidden && $("review").hidden) { e.preventDefault(); startGame(); }
     }
     if (!elGame.hidden && !S.answered) {
       if (e.key === "1") answer(0);
@@ -402,6 +430,9 @@
     btnStart.addEventListener("click", () => { SFX.click(); startGame(); });
     btnAgain.addEventListener("click", () => { SFX.click(); startGame(); });
     btnMenu.addEventListener("click", () => { SFX.click(); show(elHome); });
+    $("btn-review").addEventListener("click", () => { SFX.click(); renderReview(); });
+    $("review-close").addEventListener("click", () => { $("review").hidden = true; });
+    $("review").addEventListener("click", (e) => { if (e.target === $("review")) $("review").hidden = true; });
     optionsEl.querySelectorAll(".opt").forEach((b, i) => b.addEventListener("click", () => answer(i)));
 
     const refreshSound = () => {

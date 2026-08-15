@@ -37,6 +37,7 @@ Ejemplo final: `C = 12 + 12(11)/2 = 12 + 66 = 78`.
 
 - `+100` por acierto × **combo** (racha consecutiva: ×1, ×2, ×3, ×4).
 - Respuesta incorrecta o tiempo agotado: se muestra la respuesta correcta y se continúa (sin penalización dura).
+- Al terminar, el botón **VER RESPUESTAS** muestra el repaso de las 4 rondas: tu respuesta, la correcta y la fórmula — aunque hayas acertado todas.
 - El récord se guarda en `localStorage`.
 
 ---

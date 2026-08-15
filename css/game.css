@@ -290,7 +290,71 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
   padding: 7px 16px; border-radius: 999px;
   animation: pop-in 0.4s var(--ease-back);
 }
-.result-card .btn-row { display: flex; gap: 10px; }
+.result-card .btn-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+/* ============ REPASO DE RESPUESTAS ============ */
+.review {
+  position: fixed; inset: 0; z-index: 20;
+  display: grid; place-items: center;
+  padding: 16px;
+  background: rgba(2, 3, 10, 0.78);
+  backdrop-filter: blur(5px);
+  animation: fade-in 0.25s var(--ease);
+}
+.review-card {
+  position: relative;
+  width: min(580px, 96vw);
+  max-height: 84vh;
+  overflow-y: auto;
+  background: linear-gradient(180deg, rgba(16, 26, 54, 0.97), rgba(8, 13, 30, 0.98));
+  border: 1px solid var(--line-strong);
+  border-radius: 22px;
+  padding: 22px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+  animation: pop-in 0.35s var(--ease-back);
+}
+.review-close {
+  position: absolute; top: 12px; right: 14px;
+  font-size: 18px; line-height: 1;
+  color: var(--text-2);
+  width: 32px; height: 32px; border-radius: 10px;
+  display: grid; place-items: center;
+}
+.review-close:hover { color: var(--text-0); background: var(--panel); }
+.review-title {
+  font-family: var(--font-display); font-size: 15px; font-weight: 800;
+  letter-spacing: 0.14em; color: var(--cyan);
+  padding-right: 30px;
+}
+.review-summary {
+  font-family: var(--font-display); font-size: 13px; letter-spacing: 0.08em;
+  color: var(--text-1); margin: 8px 0 4px;
+}
+.review-summary b { color: var(--complex); }
+.review-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.review-row {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--text-2);
+  border-radius: 12px;
+  padding: 10px 13px;
+  background: rgba(6, 10, 24, 0.6);
+}
+.review-row.is-ok { border-left-color: var(--ok); }
+.review-row.is-err { border-left-color: var(--err); }
+.review-head {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+}
+.review-r {
+  font-family: var(--font-display); font-size: 10px; letter-spacing: 0.16em;
+  color: var(--text-2); white-space: nowrap;
+}
+.review-q { font-size: 15px; font-weight: 700; color: var(--text-0); }
+.review-q b { color: var(--cyan); }
+.review-ans { font-size: 14px; color: var(--text-1); margin-top: 4px; display: flex; gap: 10px; flex-wrap: wrap; }
+.review-ans .you { color: var(--err); }
+.review-ans .you.is-right { color: var(--ok); }
+.review-ans .correct { color: var(--ok); font-weight: 700; }
+.review-formula { font-family: var(--font-mono, monospace); font-size: 12.5px; color: var(--text-2); margin-top: 3px; }
 
 /* ============ Partículas ============ */
 .particle {
