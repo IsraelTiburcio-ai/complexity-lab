@@ -122,7 +122,7 @@
     const R = n <= 3 ? 0.3 : n <= 6 ? 0.34 : 0.36;
     for (let i = 0; i < n; i++) {
       const a = -Math.PI / 2 + (i / n) * 2 * Math.PI;
-      pts.push({ x: 50 + R * 100 * Math.cos(a), y: 50 + R * 100 * Math.sin(a) });
+      pts.push({ x: 50 + R * 100 * Math.cos(a), y: 50 + R * 100 * Math.sin(a), a: a });
     }
     return pts;
   }
@@ -158,17 +158,29 @@
     svg.appendChild(gEdges);
     svg.appendChild(gNodes);
 
-    // nodos
+    // nodos (etiquetas radiales, fuera del círculo)
     pts.forEach((p, i) => {
       const g = document.createElementNS(NS, "g");
       g.setAttribute("transform", "translate(" + p.x.toFixed(2) + "," + p.y.toFixed(2) + ")");
       const c = document.createElementNS(NS, "circle");
       c.setAttribute("class", "node-core" + (opts.enter ? " is-new" : ""));
       c.setAttribute("r", r);
+      // etiqueta desplazada hacia afuera, anclada según el lado
+      const fs = n <= 6 ? 5 : 3.2;
+      const gap = n <= 6 ? 3.2 : 2.6;
+      const cos = Math.cos(p.a), sin = Math.sin(p.a);
+      const anchor = Math.abs(cos) > 0.35 ? (cos > 0 ? "start" : "end") : "middle";
+      const lx = (r + gap) * cos;
+      const ly = (r + gap) * sin + fs * 0.35;
       const lbl = document.createElementNS(NS, "text");
       lbl.setAttribute("class", "node-label");
-      lbl.setAttribute("y", n <= 6 ? r + 4.5 : 3.4);
-      lbl.setAttribute("font-size", n <= 6 ? 5 : 3.2);
+      lbl.setAttribute("x", lx.toFixed(2));
+      lbl.setAttribute("y", ly.toFixed(2));
+      lbl.setAttribute("font-size", fs);
+      lbl.setAttribute("text-anchor", anchor);
+      lbl.setAttribute("paint-order", "stroke");
+      lbl.setAttribute("stroke", "rgba(4,6,13,0.9)");
+      lbl.setAttribute("stroke-width", "1.1");
       lbl.textContent = "E" + (i + 1);
       g.appendChild(c);
       g.appendChild(lbl);

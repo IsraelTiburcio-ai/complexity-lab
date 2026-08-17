@@ -187,7 +187,11 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
   animation: node-breath 3s ease-in-out infinite;
 }
 .node-core.is-new { animation: node-in 0.35s var(--ease-back), node-breath 3s ease-in-out 0.35s infinite; }
-.node-label { font-family: var(--font-mono, monospace); font-size: 9px; fill: var(--text-1); text-anchor: middle; }
+.node-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  fill: var(--text-1);
+  pointer-events: none;
+}
 .edge {
   stroke: var(--violet); stroke-opacity: 0.55; stroke-width: 1.4; stroke-linecap: round;
 }
