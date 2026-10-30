@@ -9,6 +9,14 @@
   const DATA = window.NB_DATA;
   const NS = "http://www.w3.org/2000/svg";
 
+  function readSaved(key) {
+    try { return localStorage.getItem(key); } catch (e) { return null; }
+  }
+  function writeSaved(key, value) {
+    try { localStorage.setItem(key, value); } catch (e) { /* keep session state */ }
+  }
+  let soundEnabled = readSaved("networkbomb.sound") !== "off";
+
   /* ---------- Motor matemático (única fuente de verdad) ---------- */
   const maxRelations = (n) => (n * (n - 1)) / 2;
   const maxComplexity = (n) => n + maxRelations(n);
@@ -24,7 +32,7 @@
     timeLeft: 0,
     timerId: null,
     history: [],
-    best: parseInt(localStorage.getItem("networkbomb.best") || "0", 10) || 0
+    best: parseInt(readSaved("networkbomb.best") || "0", 10) || 0
   };
 
   /* ---------- Audio (WebAudio procedural) ---------- */
@@ -39,7 +47,7 @@
     return AC;
   }
   function soundOn() {
-    return localStorage.getItem("networkbomb.sound") !== "off";
+    return soundEnabled;
   }
   function tone(f, d, t, g, delay) {
     const c = ctx();
@@ -370,7 +378,7 @@
     rBest.hidden = true;
     if (S.score > S.best) {
       S.best = S.score;
-      localStorage.setItem("networkbomb.best", String(S.best));
+      writeSaved("networkbomb.best", String(S.best));
       rBest.hidden = false;
       bestChip.hidden = false;
       bestChip.querySelector("b").textContent = S.best;
@@ -462,7 +470,8 @@
       btnSound.textContent = soundOn() ? "🔊" : "🔇";
     };
     btnSound.addEventListener("click", () => {
-      localStorage.setItem("networkbomb.sound", soundOn() ? "off" : "on");
+      soundEnabled = !soundEnabled;
+      writeSaved("networkbomb.sound", soundEnabled ? "on" : "off");
       refreshSound();
     });
     refreshSound();
