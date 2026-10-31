@@ -8,6 +8,7 @@
 
   const DATA = window.NB_DATA;
   const NS = "http://www.w3.org/2000/svg";
+  const resultsBridge = window.OptiLabResults ? window.OptiLabResults.create("complexity-lab") : { start() {}, complete() {}, cancel() {} };
 
   function readSaved(key) {
     try { return localStorage.getItem(key); } catch (e) { return null; }
@@ -385,6 +386,7 @@
     }
     SFX.final();
     show(elResult);
+    resultsBridge.complete({ reason: "completed", correct: S.correct, total, score: S.score });
   }
 
   /* ---------- Partículas ---------- */
@@ -411,6 +413,7 @@
 
   /* ---------- Inicio ---------- */
   function startGame() {
+    resultsBridge.start();
     S.round = 0; S.score = 0; S.combo = 0; S.maxCombo = 0; S.correct = 0; S.history = [];
     scoreVal.textContent = "0";
     comboChip.hidden = true;
