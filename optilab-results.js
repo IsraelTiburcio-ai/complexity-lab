@@ -4,7 +4,7 @@
   var protocol = 'optilab-original-results';
   var uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   function allowedOrigin(origin) {
-    try { var u = new URL(origin); return u.origin === origin && !u.username && !u.password && (origin === 'https://israeltiburcio-ai.github.io' || (u.protocol === 'http:' && ['127.0.0.1', 'localhost', '[::1]'].indexOf(u.hostname) !== -1)); } catch (_) { return false; }
+    try { var u = new URL(origin); return u.origin === origin && !u.username && !u.password && (origin === 'https://israeltiburcio-ai.github.io' || origin === 'https://optilab.club' || (u.protocol === 'http:' && ['127.0.0.1', 'localhost', '[::1]'].indexOf(u.hostname) !== -1)); } catch (_) { return false; }
   }
   function create(gameId) {
     var config = null, bound = false, run = null;
